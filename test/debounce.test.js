@@ -1,14 +1,13 @@
 import assert from 'assert';
 
-import debounce from '../lib/index';
+import debounce from '../src/index';
 import sinon from 'sinon';
 
 describe('debounce', () => {
-  var fnt = debounce(() => ++v);
-  var fnt2 = debounce(() => ++v, 100, true);
-
-  var clock;
-  var v;
+  let fnt = debounce(() => ++v),
+    fnt2 = debounce(() => ++v, 100, true),
+    clock,
+    v;
   beforeEach(() => {
     clock = sinon.useFakeTimers();
     v = 0;
@@ -87,13 +86,13 @@ describe('debounce', () => {
     assert.equal(v, 2);
   });
   it('arguments check', () => {
-    var y = [];
-    var a = 'a111';
-    var b = 'b222';
-    var tempfn = debounce((x, p) => {
-      y = [x,p];
-    });
-    var r = tempfn(a, b);
+    let y = [],
+      a = 'a111',
+      b = 'b222',
+      tempfn = debounce((x, p) => {
+        y = [x,p];
+      }),
+      r = tempfn(a, b);
     clock.tick(100);
     assert.equal(y[0], a);
     assert.equal(y[1], b);
