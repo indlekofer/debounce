@@ -4,11 +4,10 @@ import debounce from '../src/index';
 import sinon from 'sinon';
 
 describe('debounce', () => {
-  let fnt = debounce(() => ++v),
-    fnt2 = debounce(() => ++v, 100, true),
-    clock,
-    v;
+  let fnt, clock, v;
+
   beforeEach(() => {
+    fnt = debounce(() => ++v);
     clock = sinon.useFakeTimers();
     v = 0;
   });
@@ -32,19 +31,20 @@ describe('debounce', () => {
     assert.equal(v, 2);
   });
   it('immediate test', () => {
-    fnt2();
+    fnt = debounce(() => ++v, 100, true);
+    fnt();
     assert.equal(v, 1);
     clock.tick(10);
     assert.equal(v, 1);
-    fnt2();
+    fnt();
     assert.equal(v, 1);
     clock.tick(110);
     assert.equal(v, 1);
-    fnt2();
+    fnt();
     assert.equal(v, 2);
     clock.tick(110);
     assert.equal(v, 2);
-    fnt2();
+    fnt();
     assert.equal(v, 3);
   });
   it('long test', () => {
@@ -91,8 +91,8 @@ describe('debounce', () => {
       b = 'b222',
       tempfn = debounce((x, p) => {
         y = [x,p];
-      }),
-      r = tempfn(a, b);
+      });
+    tempfn(a, b);
     clock.tick(100);
     assert.equal(y[0], a);
     assert.equal(y[1], b);
